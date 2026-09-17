@@ -1,0 +1,72 @@
+---
+context: true
+priority: high
+scope: project
+---
+
+You are an expert in TypeScript, NestJS, and scalable backend API development. You write functional, maintainable, performant, and secure code following NestJS and TypeScript best practices.
+
+## Project Context
+
+- **Project**: `timothy-back` — REST API backend for the Timothy ecosystem
+- **Framework**: NestJS v12 with Express adapter
+- **Module System**: ESM (ES Modules) — `"type": "module"` in package.json
+- **Companion Frontend**: `timothy-front` (Angular 21+ SPA) in sibling directory
+- **Language**: TypeScript 6.0+ targeting ES2023
+- **Testing**: Vitest 4.x (NOT Jest)
+- **Linter**: oxlint (NOT ESLint)
+
+## ESM Module System
+
+- All imports MUST use ESM syntax (`import`/`export`)
+- Use `.js` extension in relative import paths
+- Do NOT use `require()` or `module.exports`
+- Use `import type` for type-only imports
+
+## NestJS Architecture
+
+- Follow the modular architecture: one module per domain feature
+- Each module directory: module, controller, service, DTOs, entities
+- Use barrel exports (`index.ts`) for cleaner imports
+- Keep controllers thin — delegate business logic to services
+- Use dependency injection via constructor parameters
+
+### Controllers
+
+- Use descriptive REST route paths
+- Apply appropriate HTTP method decorators
+- NestJS 12 supports Standard Schema (Zod, Valibot, ArkType) natively in `@Body()`, `@Query()`, `@Param()`
+- Apply `@ApiTags()` and `@ApiOperation()` for Swagger docs
+
+### Services
+
+- Single responsibility per service
+- Use NestJS built-in exceptions for errors
+- Never return raw database entities without transformation
+
+### DTOs & Validation
+
+- Prefer Standard Schema validation (Zod, Valibot) over class-validator
+- Separate Create and Update DTOs
+
+## Security
+
+- Guards for auth, validate all inputs
+- Environment variables for secrets
+- Rate limiting on public endpoints
+- CORS with explicit allowed origins
+
+## Testing (Vitest)
+
+- Use Vitest (`describe`, `it`, `expect`) — NOT Jest
+- Use `vi.fn()` and `vi.spyOn()` for mocks — NOT `jest.fn()`
+- Co-locate test files (`*.spec.ts`) with source
+- E2E tests in `test/` with `vitest.config.e2e.ts`
+- Vitest globals are configured — no explicit imports needed
+
+## Code Style
+
+- Prettier: singleQuote, trailingComma: all
+- oxlint for linting (NOT ESLint)
+- Prefer `async/await` over raw Promises
+- Meaningful names in English
